@@ -43,4 +43,9 @@ CREATE TABLE credit (
     FOREIGN KEY (actorID) REFERENCES artist (ID)
 );
 
+CREATE USER IF NOT EXISTS 'python_connector'@'localhost' IDENTIFIED BY 'sudo';
+GRANT ALL PRIVILEGES ON bmdb.*
+TO 'python_connector'@'localhost';
+
+
 
