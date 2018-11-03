@@ -5,8 +5,8 @@ USE bmdb;
 
 CREATE TABLE movie ( 
 	ID					INT				PRIMARY KEY		AUTO_INCREMENT,
-    TITLE				VARCHAR(100)	NOT NULL,
-    GENRE				INT				NOT NULL,
+    TITLE				VARCHAR(100)	NOT NULL		UNIQUE,
+    GENRE				VARCHAR(20)		NOT NULL,
     RATING				VARCHAR(5)		NOT NULL,
     `YEAR`				INT				NOT NULL,
     DIRECTOR			VARCHAR(50)		NOT NULL
@@ -20,25 +20,14 @@ CREATE TABLE genre (
 
 CREATE TABLE artist ( 
 	ID					INT				PRIMARY KEY		AUTO_INCREMENT,
-    firstName			VARCHAR(25)		NOT NULL,
-    lastName			VARCHAR(25)		NOT NULL,
-    gender				VARCHAR(6)		NOT NULL,	
-    birthday			DATE			NOT NULL    
+    artistName			VARCHAR(50)		NOT NULL		UNIQUE   
 );
 
-CREATE TABLE movieGenre (
-	ID					INT				PRIMARY KEY		AUTO_INCREMENT,
-    movieID				INT				NOT NULL,
-    genreID				INT				NOT NULL,    
-    FOREIGN KEY (movieID) REFERENCES movie (ID),
-    FOREIGN KEY (genreID) REFERENCES genre (ID)
-);
 
 CREATE TABLE credit ( 
 	ID					INT				PRIMARY KEY		AUTO_INCREMENT,
     movieID				INT,
     actorID				INT,
-    characterName		VARCHAR(50),
     FOREIGN KEY (movieID) REFERENCES movie (ID),
     FOREIGN KEY (actorID) REFERENCES artist (ID)
 );
