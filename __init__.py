@@ -6,7 +6,7 @@ from mysql.connector import Error
 
 def main():
     
-    movieIdList = ["0118715", "0362270", "0456554", "3416742", "0107048"]
+    movieIdList = ["0118715", "0362270", "0456554", "3416742", "0107048", "0208092", "0120735", "0375912"]
     ia = IMDb()
     
     
@@ -35,10 +35,9 @@ def main():
         return topMovies
     
     
-    def printMovieData():
-        movie = getMovieData("0362270")
+    def printMovieData(movie):
         title = movie['title']
-        genre = movie['genre'][0]
+        genre = movie['genre']
         rating = movie['rating']
         year = movie['year']
         director = movie['director'][0]
@@ -54,7 +53,6 @@ def main():
         artistID = 0;
         
         title    = str(movie['title'])
-        print(title)
         genre    = str(movie['genre'][0])
         rating   = str(movie['rating'])
         year     = str(movie['year'])
@@ -64,34 +62,24 @@ def main():
         
         cursor.execute(movieQuery, (title, genre, rating, year, director))
         movieID = cursor.lastrowid
-
-#         print("MOVIE ID " , movieID)
+        print(title, " added to database")
         
         for artist in movie['cast']:      
             name = artist['name'].replace("'", " ")
             asq = artistCheckQuery.format(name)
             cursor.execute(asq)
             row_count = cursor.fetchall()
-            print(row_count)
             
-            
-            print("ROW COUNT", row_count)
-            
-            if row_count[0][1] == 1:
-                print("IF")                
+            if row_count[0][1] == 1:       
                 artistID = row_count[0][0]
             else:
-                print("ELSE")
-                aq = artistQuery.format(name)
-                print(aq)            
+                aq = artistQuery.format(name)     
                 cursor.execute(aq)
             
                 artistID = cursor.lastrowid
              
             cq = creditQuery%(movieID, artistID)
-            print(cq)
-            cursor.execute(cq)
-        
+            cursor.execute(cq)     
         
 
     conn = dbConnect()
